@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Active Annotations Extensions
+Bundle-SymbolicName: de.abg.jreichert.activeanno.common
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Joerg Reichert
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.eclipse.xtend.lib;bundle-version="[2.5.0,2.6.0)",
+ org.eclipse.xtext.generator;bundle-version="[2.5.0,2.6.0)",
+ org.eclipse.xtext;bundle-version="[2.5.0,2.6.0)",
+ org.eclipse.xtext.ecore;bundle-version="[2.5.0,2.6.0)",
+ org.junit;bundle-version="4.5.0",
+ org.eclipse.xtend.standalone;bundle-version="[2.5.0,2.6.0)",
+ org.objectweb.asm;bundle-version="3.3.1"
+Export-Package: de.abg.jreichert.activeanno.common
+
+

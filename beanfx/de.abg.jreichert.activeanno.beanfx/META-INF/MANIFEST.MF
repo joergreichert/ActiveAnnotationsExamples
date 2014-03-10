@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JavaFX Bean active annotations
+Bundle-SymbolicName: de.abg.jreichert.activeanno.beanfx
+Bundle-Version: 1.0.0.qualifier
+Export-Package: annotations
+Require-Bundle: org.eclipse.xtext.junit4;bundle-version="2.4.3",
+ org.eclipse.xtend.lib;bundle-version="2.4.3",
+ org.junit;bundle-version="4.11.0",
+ org.eclipse.xtend.core;bundle-version="2.4.3"

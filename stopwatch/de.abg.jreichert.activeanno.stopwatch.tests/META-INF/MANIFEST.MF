@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Stop watch active annotations tests
+Bundle-SymbolicName: de.abg.jreichert.activeanno.stopwatch.tests
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Joerg Reichert
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.eclipse.xtend.core;bundle-version="2.5.3",
+ org.junit;bundle-version="4.11.0",
+ de.abg.jreichert.activeanno.stopwatch;bundle-version="1.0.0"
+Bundle-ClassPath: .
+
