@@ -1,0 +1,16 @@
+<project default="touch">
+
+	<property name="validationPath">src/org/eclipse/xtext/example/domainmodel/validation</property>
+	<property name="IssueCodes" value="${validationPath}/IssueCodes.xtend" />
+	<property name="messages" value="${validationPath}/messages.properties" />
+	
+	<condition property="isUpToDate">
+		<uptodate srcfile="${messages}" targetfile="${IssueCodes}"/>	
+	</condition>
+	
+	<target name="touch" unless="isUpToDate">
+		<touch file="${IssueCodes}"/>
+		<echo message="Updated ${IssueCodes}" />
+	</target>
+	
+</project>
