@@ -14,7 +14,7 @@ import org.eclipse.xtext.ui.generator.*
 var projectName = "org.eclipse.xtext.example.domainmodel"
 var grammarURI = "platform:/resource/${projectName}/src/org/eclipse/xtext/example/domainmodel/Domainmodel.xtext"
 var file.extensions = "dmodel"
-var runtimeProject = "../${projectName}"
+var runtimeProject = "nls/${projectName}"
 
 Workflow {
 

@@ -1,6 +1,9 @@
 package de.abg.jreichert.activeanno.jpa.example;
 
+import de.abg.jreichert.activeanno.jpa.Entity;
+import de.abg.jreichert.activeanno.jpa.Property;
 import de.abg.jreichert.activeanno.jpa.example.Unit;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -12,84 +15,54 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.hibernate.annotations.Sort;
 
-/* @Entity
- */@SuppressWarnings("all")
+@Entity
+@javax.persistence.Entity
+@SuppressWarnings("all")
 public class Location {
   public Location(final Location parentLocation) {
-    this.setParentLocation(parentLocation);
+    this.parentLocation = parentLocation;
   }
   
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long _id = null;
+  @Property
+  private Long id = null;
   
-  public Long getId() {
-    return this._id;
-  }
+  @Property
+  private String timestamp = null;
   
-  public void setId(final Long id) {
-    this._id = id;
-  }
+  @Property
+  private String url;
   
-  private String _timestamp = null;
-  
-  public String getTimestamp() {
-    return this._timestamp;
-  }
-  
-  public void setTimestamp(final String timestamp) {
-    this._timestamp = timestamp;
-  }
-  
-  private String _url;
-  
-  public String getUrl() {
-    return this._url;
-  }
-  
-  public void setUrl(final String url) {
-    this._url = url;
-  }
-  
+  @Property
   @ManyToOne
   @JoinColumn(name = "location_id")
-  private Location _parentLocation;
+  private Location parentLocation;
   
-  public Location getParentLocation() {
-    return this._parentLocation;
-  }
-  
-  public void setParentLocation(final Location parentLocation) {
-    this._parentLocation = parentLocation;
-  }
-  
+  @Property
   @OneToMany(mappedBy = "parentLocation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @Sort
-  private Set<Location> _aggregatedLocations /* Skipped initializer because of errors */;
+  private Set<Location> aggregatedLocations = CollectionLiterals.<Location>newTreeSet(new Comparator<Location>() {
+    public int compare(final Location a, final Location b) {
+      return a.url.compareTo(b.url);
+    }
+  });
   
-  public Set<Location> getAggregatedLocations() {
-    return this._aggregatedLocations;
-  }
-  
-  public void setAggregatedLocations(final Set<Location> aggregatedLocations) {
-    this._aggregatedLocations = aggregatedLocations;
-  }
-  
+  @Property
   @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @Sort
-  private Set<Unit> _units /* Skipped initializer because of errors */;
-  
-  public Set<Unit> getUnits() {
-    return this._units;
-  }
-  
-  public void setUnits(final Set<Unit> units) {
-    this._units = units;
-  }
+  private Set<Unit> units = CollectionLiterals.<Unit>newTreeSet(new Comparator<Unit>() {
+    public int compare(final Unit a, final Unit b) {
+      String _name = a.getName();
+      String _name_1 = b.getName();
+      return _name.compareTo(_name_1);
+    }
+  });
   
   public String toString() {
     StringConcatenation _builder = new StringConcatenation();
@@ -97,42 +70,37 @@ public class Location {
     _builder.newLine();
     _builder.append("\t");
     _builder.append("parentLocationId=");
-    Location _parentLocation = this.getParentLocation();
     Long _id = null;
-    if (_parentLocation!=null) {
-      _id=_parentLocation.getId();
+    if (this.parentLocation!=null) {
+      _id=this.parentLocation.id;
     }
     _builder.append(_id, "\t");
     _builder.append(", ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("id=");
-    Long _id_1 = this.getId();
-    _builder.append(_id_1, "\t");
+    _builder.append(this.id, "\t");
     _builder.append(", ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("timestamp=");
-    String _timestamp = this.getTimestamp();
-    _builder.append(_timestamp, "\t");
+    _builder.append(this.timestamp, "\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("url=");
-    String _url = this.getUrl();
-    _builder.append(_url, "\t");
+    _builder.append(this.url, "\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("units (");
     _builder.newLine();
     {
-      Set<Unit> _units = this.getUnits();
-      final Function1<Object,Long> _function = new Function1<Object,Long>() {
-        public Long apply(final Object it) {
-          return Location.this.getId();
+      final Function1<Unit,Long> _function = new Function1<Unit,Long>() {
+        public Long apply(final Unit it) {
+          return Location.this.id;
         }
       };
-      List _sortBy = IterableExtensions.<Object, Comparable>sortBy(_units, _function);
-      for(final Object unit : _sortBy) {
+      List<Unit> _sortBy = IterableExtensions.<Unit, Long>sortBy(this.units, _function);
+      for(final Unit unit : _sortBy) {
         _builder.append("\t\t");
         String _string = unit.toString();
         _builder.append(_string, "\t\t");
@@ -146,14 +114,13 @@ public class Location {
     _builder.append("aggregatedLocations (");
     _builder.newLine();
     {
-      Set<Location> _aggregatedLocations = this.getAggregatedLocations();
-      final Function1<Object,Long> _function_1 = new Function1<Object,Long>() {
-        public Long apply(final Object it) {
-          return Location.this.getId();
+      final Function1<Location,Long> _function_1 = new Function1<Location,Long>() {
+        public Long apply(final Location it) {
+          return it.id;
         }
       };
-      List _sortBy_1 = IterableExtensions.<Object, Comparable>sortBy(_aggregatedLocations, _function_1);
-      for(final Object aggregatedLocation : _sortBy_1) {
+      List<Location> _sortBy_1 = IterableExtensions.<Location, Long>sortBy(this.aggregatedLocations, _function_1);
+      for(final Location aggregatedLocation : _sortBy_1) {
         _builder.append("\t\t");
         String _string_1 = aggregatedLocation.toString();
         _builder.append(_string_1, "\t\t");
@@ -166,5 +133,56 @@ public class Location {
     _builder.append(")");
     _builder.newLine();
     return _builder.toString();
+  }
+  
+  public Location() {
+  }
+  
+  public Long getId() {
+    return this.id;
+  }
+  
+  public void setId(final Long id) {
+    this.id = id;
+  }
+  
+  public String getTimestamp() {
+    return this.timestamp;
+  }
+  
+  public void setTimestamp(final String timestamp) {
+    this.timestamp = timestamp;
+  }
+  
+  public String getUrl() {
+    return this.url;
+  }
+  
+  public void setUrl(final String url) {
+    this.url = url;
+  }
+  
+  public Location getParentLocation() {
+    return this.parentLocation;
+  }
+  
+  public void setParentLocation(final Location parentLocation) {
+    this.parentLocation = parentLocation;
+  }
+  
+  public Set<Location> getAggregatedLocations() {
+    return this.aggregatedLocations;
+  }
+  
+  public void setAggregatedLocations(final Set<Location> aggregatedLocations) {
+    this.aggregatedLocations = aggregatedLocations;
+  }
+  
+  public Set<Unit> getUnits() {
+    return this.units;
+  }
+  
+  public void setUnits(final Set<Unit> units) {
+    this.units = units;
   }
 }

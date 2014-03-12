@@ -1,5 +1,7 @@
 package de.abg.jreichert.activeanno.jpa.example;
 
+import de.abg.jreichert.activeanno.jpa.Entity;
+import de.abg.jreichert.activeanno.jpa.Property;
 import de.abg.jreichert.activeanno.jpa.example.Unit;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,63 +10,67 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
-/* @Entity
- */@SuppressWarnings("all")
+@Entity
+@javax.persistence.Entity
+@SuppressWarnings("all")
 public class Version {
   public Version(final Unit unit) {
-    this.setUnit(unit);
+    this.unit = unit;
   }
   
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long _id = null;
+  @Property
+  private Long id = null;
   
-  public Long getId() {
-    return this._id;
-  }
-  
-  public void setId(final Long id) {
-    this._id = id;
-  }
-  
+  @Property
   @ManyToOne
   @JoinColumn(name = "unit_id")
-  private Unit _unit;
+  private Unit unit;
   
-  public Unit getUnit() {
-    return this._unit;
-  }
-  
-  public void setUnit(final Unit unit) {
-    this._unit = unit;
-  }
-  
-  private String _name;
-  
-  public String getName() {
-    return this._name;
-  }
-  
-  public void setName(final String name) {
-    this._name = name;
-  }
+  @Property
+  private String name;
   
   public String toString() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("version ( unitId=");
-    Unit _unit = this.getUnit();
     Long _id = null;
-    if (_unit!=null) {
-      _id=_unit.getId();
+    if (this.unit!=null) {
+      _id=this.unit.getId();
     }
     _builder.append(_id, "");
     _builder.append(", id=");
-    Long _id_1 = this.getId();
-    _builder.append(_id_1, "");
+    _builder.append(this.id, "");
     _builder.append(", name=");
-    String _name = this.getName();
-    _builder.append(_name, "");
+    _builder.append(this.name, "");
     _builder.append(" )");
     return _builder.toString();
+  }
+  
+  public Version() {
+  }
+  
+  public Long getId() {
+    return this.id;
+  }
+  
+  public void setId(final Long id) {
+    this.id = id;
+  }
+  
+  public Unit getUnit() {
+    return this.unit;
+  }
+  
+  public void setUnit(final Unit unit) {
+    this.unit = unit;
+  }
+  
+  public String getName() {
+    return this.name;
+  }
+  
+  public void setName(final String name) {
+    this.name = name;
   }
 }

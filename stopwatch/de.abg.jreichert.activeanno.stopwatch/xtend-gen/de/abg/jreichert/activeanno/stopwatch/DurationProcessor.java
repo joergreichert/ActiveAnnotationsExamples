@@ -1,6 +1,9 @@
 package de.abg.jreichert.activeanno.stopwatch;
 
 import com.google.common.base.Objects;
+import de.abg.jreichert.activeanno.common.AnnotationExtensions;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import org.eclipse.xtend.lib.macro.AbstractMethodProcessor;
 import org.eclipse.xtend.lib.macro.TransformationContext;
 import org.eclipse.xtend.lib.macro.declaration.CompilationStrategy;
@@ -21,7 +24,7 @@ import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 @SuppressWarnings("all")
 public class DurationProcessor extends AbstractMethodProcessor {
   @Extension
-  private /* AnnotationExtensions */Object _annotationExtensions /* Skipped initializer because of errors */;
+  private AnnotationExtensions _annotationExtensions = new AnnotationExtensions();
   
   public void doTransform(final MutableMethodDeclaration method, @Extension final TransformationContext context) {
     TypeReference _returnType = method.getReturnType();
@@ -157,13 +160,11 @@ public class DurationProcessor extends AbstractMethodProcessor {
   }
   
   private String fqnSimpleDateFormat(final CompilationStrategy.CompilationContext compilationContext, final TransformationContext transformationContext) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method fqnClass is undefined for the type DurationProcessor");
+    return this._annotationExtensions.fqnClass(compilationContext, transformationContext, SimpleDateFormat.class);
   }
   
   private String fqnCalendar(final CompilationStrategy.CompilationContext compilationContext, final TransformationContext transformationContext) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method fqnClass is undefined for the type DurationProcessor");
+    return this._annotationExtensions.fqnClass(compilationContext, transformationContext, Calendar.class);
   }
   
   private String newMethodName(final MethodDeclaration it) {

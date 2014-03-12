@@ -1,2 +1,2 @@
-/org
-plugin.xml
+*
+!.gitignore

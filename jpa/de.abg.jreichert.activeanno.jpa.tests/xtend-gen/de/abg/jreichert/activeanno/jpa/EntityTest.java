@@ -1,5 +1,6 @@
 package de.abg.jreichert.activeanno.jpa;
 
+import de.abg.jreichert.activeanno.jpa.Entity;
 import org.eclipse.xtend.core.compiler.batch.XtendCompilerTester;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -8,7 +9,7 @@ import org.junit.Test;
 @SuppressWarnings("all")
 public class EntityTest {
   @Extension
-  private XtendCompilerTester compilerTester /* Skipped initializer because of errors */;
+  private XtendCompilerTester compilerTester = XtendCompilerTester.newXtendCompilerTester(Entity.class);
   
   @Test
   public void testEntity() {
