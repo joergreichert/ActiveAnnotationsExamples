@@ -1,0 +1,2 @@
+# normalize text files to use lf
+text eol=lf
