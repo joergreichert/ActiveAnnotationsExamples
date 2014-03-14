@@ -1,6 +1,6 @@
 package application
 
-import annotations.FXBean
+import de.abg.jreichert.activeanno.beanfx.FXBean
 
 @FXBean
 class MyBean {

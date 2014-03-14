@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JavaFX Bean active annotations tests
+Bundle-SymbolicName: de.abg.jreichert.activeanno.beanfx.tests
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.xtext.junit4,
+ org.junit,
+ org.eclipse.xtend.core,
+ de.abg.jreichert.activeanno.beanfx,
+ org.eclipse.xtext.util,
+ org.eclipse.xtext,
+ org.apache.log4j,
+ org.eclipse.xtext.xbase.junit,
+ org.eclipse.jdt.core,
+ org.eclipse.emf.codegen
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

@@ -1,5 +1,6 @@
 package de.abg.jreichert.activeanno.jpa
 
+import de.abg.jreichert.activeanno.common.AnnotationExtensions
 import java.lang.annotation.ElementType
 import java.lang.annotation.Target
 import javax.persistence.Id
@@ -13,8 +14,8 @@ import org.eclipse.xtend.lib.macro.declaration.MutableClassDeclaration
 import org.eclipse.xtend.lib.macro.declaration.MutableTypeParameterDeclaration
 import org.eclipse.xtend.lib.macro.declaration.TypeReference
 import org.eclipse.xtend.lib.macro.declaration.Visibility
+import org.sculptor.framework.domain.LeafProperty
 import org.sculptor.framework.domain.PropertiesCollection
-import de.abg.jreichert.activeanno.common.AnnotationExtensions
 
 @Target(ElementType.TYPE)
 @Active(EntityLiteralProcessor)
@@ -90,8 +91,14 @@ class EntityLiteralProcessor extends AbstractClassProcessor {
 		]
 		for (field : annotatedClass.declaredFields) {
 			if (field.isAnnotatedWithProperty(context) || field.isAnnotatedWithId(context)) {
-				if(field.type.isAnnotatedWithEntity(context) || field.type.isAnnotatedWithEntityLiteral(context)) {
-					classType.addTypeLiteralImplMethod(field.type.type as ClassDeclaration, field, context, typeParameter)
+				val typeArgument = field.type.actualTypeArguments.head
+				val typeToCheck = if(typeArgument != null && typeArgument.type != null) {
+					typeArgument
+				} else {
+					field.type
+				}
+				if(typeToCheck.isAnnotatedWithEntity(context) || typeToCheck.isAnnotatedWithEntityLiteral(context)) {
+					classType.addTypeLiteralImplMethod(typeToCheck.type as ClassDeclaration, field, context, typeParameter)
 				} else {
 					classType.addLiteralImplMethod(field, context, typeParameter)
 				}
@@ -134,8 +141,14 @@ class EntityLiteralProcessor extends AbstractClassProcessor {
 		]
 		for (field : annotatedClass.declaredFields) {
 			if (field.isAnnotatedWithProperty(context) || field.isAnnotatedWithId(context)) {
-				if(field.type.isAnnotatedWithEntity(context) || field.type.isAnnotatedWithEntityLiteral(context)) {
-					classType.addTypeLiteralsMethod(field.type.type as ClassDeclaration, annotatedClass, field, context)
+				val typeArgument = field.type.actualTypeArguments.head
+				val typeToCheck = if(typeArgument != null && typeArgument.type != null) {
+					typeArgument
+				} else {
+					field.type
+				}
+				if(typeToCheck.isAnnotatedWithEntity(context) || typeToCheck.isAnnotatedWithEntityLiteral(context)) {
+					classType.addTypeLiteralsMethod(typeToCheck.type as ClassDeclaration, annotatedClass, field, context)
 				} else {
 					classType.addLiteralsMethod(annotatedClass, field, context)
 				}
@@ -181,7 +194,7 @@ class EntityLiteralProcessor extends AbstractClassProcessor {
 		classType.addMethod(field.simpleName) [
 			visibility = Visibility.PUBLIC
 			returnType = org.sculptor.framework.domain.Property.newTypeReference(typeParameter.newTypeReference)
-			body = ['''return new «toJavaCode(org.sculptor.framework.domain.LeafProperty.newTypeReference(typeParameter.newTypeReference))»(getParentPath(), "«field.simpleName»", false, owningClass);''']
+			body = ['''return new «toJavaCode(LeafProperty.newTypeReference(typeParameter.newTypeReference))»(getParentPath(), "«field.simpleName»", false, owningClass);''']
 		]
 	}
 	

@@ -4,4 +4,6 @@ Bundle-Name: JavaFX Bean active annotations
 Bundle-SymbolicName: de.abg.jreichert.activeanno.beanfx.tests
 Bundle-Version: 1.0.0.qualifier
 Export-Package: application
-Require-Bundle: org.eclipse.xtend.lib;bundle-version="2.4.3"
+Require-Bundle: org.eclipse.xtend.lib,
+ de.abg.jreichert.activeanno.beanfx
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

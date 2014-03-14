@@ -10,3 +10,4 @@ Copy* of src-gen
 *.zip
 src-gen
 *.orig
+contents.db
