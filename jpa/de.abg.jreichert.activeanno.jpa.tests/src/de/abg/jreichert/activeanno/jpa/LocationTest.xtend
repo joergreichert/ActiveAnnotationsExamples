@@ -258,11 +258,11 @@ class LocationTest {
 				    return sharedInstance.parentLocation();
 				  }
 				  
-				  public static Property<Location> aggregatedLocations() {
+				  public static LocationLiteral<Location> aggregatedLocations() {
 				    return sharedInstance.aggregatedLocations();
 				  }
 				  
-				  public static Property<Location> units() {
+				  public static UnitLiteral<Location> units() {
 				    return sharedInstance.units();
 				  }
 				  
@@ -418,7 +418,7 @@ class LocationTest {
 				    return sharedInstance.name();
 				  }
 				  
-				  public static Property<Unit> versions() {
+				  public static VersionLiteral<Unit> versions() {
 				    return sharedInstance.versions();
 				  }
 				  

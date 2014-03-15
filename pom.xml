@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<modelVersion>4.0.0</modelVersion>
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
+
+	<parent>
+		<groupId>de.abg.jreichert.activeanno</groupId>
+		<artifactId>de.abg.jreichert.activeanno.parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>_common/de.abg.jreichert.activeanno.parent/pom.xml</relativePath>
+	</parent>
+	
+	<artifactId>de.abg.jreichert.activeanno.distribution</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>_common/de.abg.jreichert.activeanno.common</module>
+		<!-- Stop watch -->
+		<module>stopwatch/de.abg.jreichert.activeanno.stopwatch</module>
+		<module>stopwatch/de.abg.jreichert.activeanno.stopwatch.example</module>
+		<module>stopwatch/de.abg.jreichert.activeanno.stopwatch.tests</module>
+		<!-- NLS -->
+		<module>nls/de.abg.jreichert.activeanno.nls</module>
+		<module>nls/de.abg.jreichert.activeanno.nls.tests</module>
+		<module>nls/org.eclipse.xtext.example.domainmodel</module>
+		<module>nls/org.eclipse.xtext.example.domainmodel.ui</module>
+		<!-- JPA Criteria Builder -->
+		<module>jpa/de.abg.jreichert.activeanno.jpa</module>
+		<module>jpa/de.abg.jreichert.activeanno.jpa.example</module>
+		<module>jpa/de.abg.jreichert.activeanno.jpa.tests</module>
+		<!-- JavaFX -->
+		<!-- requires Java 8
+		<module>beanfx/de.abg.jreichert.activeanno.beanfx</module>
+		<module>beanfx/de.abg.jreichert.activeanno.beanfx.example</module>
+		<module>beanfx/de.abg.jreichert.activeanno.beanfx.tests</module>
+		-->
+		<!-- JUnit Test Suite -->
+		<!-- not implemented yet
+		<module>testsuite/de.abg.jreichert.activeanno.testsuite</module>
+		<module>testsuite/de.abg.jreichert.activeanno.testsuite.example</module>
+		<module>testsuite/de.abg.jreichert.activeanno.testsuite.tests</module>
+		-->
+	</modules>
+</project>
