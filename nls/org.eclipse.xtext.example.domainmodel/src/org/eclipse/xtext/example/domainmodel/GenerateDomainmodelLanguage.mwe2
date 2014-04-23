@@ -20,7 +20,7 @@ Workflow {
 
     bean = StandaloneSetup {
     	resourceSet = org.eclipse.xtext.resource.XtextResourceSet:theResourceSet {}
-        platformUri = "${runtimeProject}/.."
+        platformUri = "${runtimeProject}/../.."
         
         uriMap = {
             from = "platform:/resource/org.eclipse.xtext.xbase/"
