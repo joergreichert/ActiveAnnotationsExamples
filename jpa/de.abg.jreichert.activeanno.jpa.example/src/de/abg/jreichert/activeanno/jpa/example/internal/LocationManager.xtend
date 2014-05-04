@@ -3,7 +3,14 @@ package de.abg.jreichert.activeanno.jpa.example.internal
 import de.abg.jreichert.activeanno.jpa.CustomJpaHibFindByConditionAccessImpl
 import java.util.List
 import java.util.Set
+import org.hibernate.Session
 import org.hibernate.Transaction
+import org.sculptor.framework.accessapi.ConditionalCriteriaBuilder.ConditionProperty
+import org.sculptor.framework.accessapi.ConditionalCriteriaBuilder.ConditionRoot
+import org.sculptor.framework.domain.Property
+
+import static de.abg.jreichert.activeanno.jpa.example.internal.LocationLiterals.*
+import static de.abg.jreichert.activeanno.jpa.example.internal.UnitLiterals.*
 import org.sculptor.framework.accessapi.ConditionalCriteriaBuilder
 
 class LocationManager {
@@ -45,23 +52,29 @@ class LocationManager {
 	def Set<String> getLocationURLsContainingUnitWithVersion(String unit, String version) {
 		val urls = <String>newHashSet
 		val session = SessionManager::currentSession
-		val unitFindByCondition = new CustomJpaHibFindByConditionAccessImpl(Unit, session)
-		var unitCriteriaRoot = ConditionalCriteriaBuilder.criteriaFor(Unit)
-		unitCriteriaRoot = unitCriteriaRoot.withProperty(
-			UnitLiterals.name()).eq(unit).and().withProperty(UnitLiterals.versions().name()).eq(
-			version)
-		unitFindByCondition.addCondition(unitCriteriaRoot.buildSingle())
-		unitFindByCondition.performExecute
-		val unitIds = unitFindByCondition.getResult().map[id]
-		val locationFindByCondition = new CustomJpaHibFindByConditionAccessImpl(Location, session)
-		var locationCriteriaRoot = ConditionalCriteriaBuilder.criteriaFor(Location)
-		locationCriteriaRoot = locationCriteriaRoot.withProperty(
-			LocationLiterals.units().id()).in(unitIds)
-		locationFindByCondition.addCondition(locationCriteriaRoot.buildSingle())
-		locationFindByCondition.performExecute
-		val result = toLocationList(locationFindByCondition.getResult())
+		val unitIds = session.find(Unit) [ it => name == unit && it => versions.name() == version ].map[id]
+		val result = session.find(Location) [ (it => units.id).in(unitIds) ].toLocationList
 		result.forEach[urls.add(url)]
 		urls
+	}
+	
+	def <T> List<T> find(Session session, Class<T> clazz, (ConditionRoot<T>) => ConditionRoot<T> criteriaRoot) {
+		val extension findByCondition = new CustomJpaHibFindByConditionAccessImpl(clazz, session)
+		criteriaRoot.apply(ConditionalCriteriaBuilder.criteriaFor(clazz)).buildSingle.addCondition
+		performExecute
+		getResult
+	}
+	
+	def <T> ConditionRoot<T> operator_equals(ConditionProperty<T> property, Object value) {
+		property.eq(value)
+	}
+
+	def <T> ConditionRoot<T> operator_and(ConditionRoot<T> root, ConditionRoot<T> dummy) {
+		root.and()
+	}
+	
+	def <T> ConditionProperty<T> operator_doubleArrow(ConditionRoot<T> root, Property<T> property) {
+		root.withProperty(property)
 	}
 
 	private def toLocationList(List<?> result) {
