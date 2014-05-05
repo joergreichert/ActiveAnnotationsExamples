@@ -12,12 +12,13 @@ import org.eclipse.xtend.lib.macro.file.Path
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
+import org.eclipse.xtend.lib.macro.declaration.MutableAnnotationReference
 
 @Target(ElementType::TYPE)
 @Active(typeof(TestSuiteProcessor))
 annotation TestSuite {
 	boolean includeSubPackages = false
-	String matchPattern = "*"
+	String postfixPattern = "Test"
 }
 
 class TestSuiteProcessor extends AbstractClassProcessor {
@@ -29,17 +30,21 @@ class TestSuiteProcessor extends AbstractClassProcessor {
 		val compilationUnit = annotatedClass.compilationUnit
 		suiteClassesAnnotation.setClassValue("value", Object.newTypeReference)
 		val src = compilationUnit.filePath.sourceFolder
+		val testSuiteAnnotation = annotatedClass.annotations.filter[
+			annotationTypeDeclaration.qualifiedName == TestSuite.newTypeReference.type.qualifiedName
+		].head
+		val value = testSuiteAnnotation.getValue('postfixPattern') as String
+		val postfixPattern = if(value.nullOrEmpty) "Test" else value
 		val classes = <Type>newArrayList
-		traverse(src, src, classes, "", context)
+		traverse(testSuiteAnnotation, src, src, classes, "", postfixPattern, context)
 		suiteClassesAnnotation.setClassValue("value", classes.map[newTypeReference])
-//		val testSuiteAnnotation = annotatedClass.getTestSuiteAnnotation(context)
 	}
 	
-	def void traverse(Path source, Path path, List<Type> classes, String packageName, extension TransformationContext context) {
+	def void traverse(MutableAnnotationReference testSuiteAnnotation, Path source, Path path, List<Type> classes, String packageName, String postfixPattern, extension TransformationContext context) {
 		for(child : path.getChildren) {
 			if(child.file) {
 				val qName = child.relativize(source).segments.join(".").replace("." + child.fileExtension, "")
-				if(qName.endsWith("Test")) {
+				if(qName.endsWith(postfixPattern)) {
 					val foundType = context.findTypeGlobally(qName)
 					if(foundType !== null) {
 						classes.add(foundType) 
@@ -47,21 +52,8 @@ class TestSuiteProcessor extends AbstractClassProcessor {
 				}
 			} else {
 				val newPackageName = packageName + "." child.lastSegment
-				traverse(source, child, classes, newPackageName, context)
+				traverse(testSuiteAnnotation, source, child, classes, newPackageName, postfixPattern, context)
 			}
 		}
 	}
-
-//	def private getTestSuiteAnnotation(MutableClassDeclaration annotatedClass, extension TransformationContext context) {
-//		annotatedClass.findAnnotation(TestSuite.newTypeReference.type)
-//	}
-
-//	def private getTestSuiteAnnotationPropertyValue(MutableAnnotationReference nlsAnnotation,
-//		extension TransformationContext context) {
-//		val value = nlsAnnotation.getValue('includeSubPackages') as String
-//		if (value.nullOrEmpty) {
-//			nlsAnnotation.addError("@TestSuite requires non empty includeSubPackages property value.")
-//		}
-//		value
-//	}
 }
