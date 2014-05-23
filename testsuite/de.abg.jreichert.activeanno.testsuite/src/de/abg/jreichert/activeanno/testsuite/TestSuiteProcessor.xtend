@@ -12,7 +12,7 @@ import org.eclipse.xtend.lib.macro.file.Path
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
-import org.eclipse.xtend.lib.macro.declaration.MutableAnnotationReference
+import org.eclipse.xtend.lib.macro.declaration.AnnotationReference
 
 @Target(ElementType::TYPE)
 @Active(typeof(TestSuiteProcessor))
@@ -24,11 +24,12 @@ annotation TestSuite {
 class TestSuiteProcessor extends AbstractClassProcessor {
 
 	override doTransform(MutableClassDeclaration annotatedClass, extension TransformationContext context) {
-		val runWithAnnotation = annotatedClass.addAnnotation(RunWith.newTypeReference.type)
-		runWithAnnotation.setClassValue("value", Suite.newTypeReference)
-		val suiteClassesAnnotation = annotatedClass.addAnnotation(SuiteClasses.newTypeReference.type)
+		val runWithAnnotation = RunWith.newAnnotationReference [
+			setClassValue("value", Suite.newTypeReference)
+		]
+		annotatedClass.addAnnotation(runWithAnnotation) 
+
 		val compilationUnit = annotatedClass.compilationUnit
-		suiteClassesAnnotation.setClassValue("value", Object.newTypeReference)
 		val src = compilationUnit.filePath.sourceFolder
 		val testSuiteAnnotation = annotatedClass.annotations.filter[
 			annotationTypeDeclaration.qualifiedName == TestSuite.newTypeReference.type.qualifiedName
@@ -37,10 +38,14 @@ class TestSuiteProcessor extends AbstractClassProcessor {
 		val postfixPattern = if(value.nullOrEmpty) "Test" else value
 		val classes = <Type>newArrayList
 		traverse(testSuiteAnnotation, src, src, classes, "", postfixPattern, context)
-		suiteClassesAnnotation.setClassValue("value", classes.map[newTypeReference])
+
+		val suiteAnnotation = SuiteClasses.newAnnotationReference [
+			setClassValue("value", classes.map[newTypeReference])
+		]
+		annotatedClass.addAnnotation(suiteAnnotation)
 	}
 	
-	def void traverse(MutableAnnotationReference testSuiteAnnotation, Path source, Path path, List<Type> classes, String packageName, String postfixPattern, extension TransformationContext context) {
+	def void traverse(AnnotationReference testSuiteAnnotation, Path source, Path path, List<Type> classes, String packageName, String postfixPattern, extension TransformationContext context) {
 		for(child : path.getChildren) {
 			if(child.file) {
 				val qName = child.relativize(source).segments.join(".").replace("." + child.fileExtension, "")

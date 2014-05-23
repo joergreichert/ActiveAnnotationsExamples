@@ -12,10 +12,10 @@ import java.util.regex.Pattern
 import org.eclipse.xtend.lib.macro.AbstractClassProcessor
 import org.eclipse.xtend.lib.macro.Active
 import org.eclipse.xtend.lib.macro.TransformationContext
-import org.eclipse.xtend.lib.macro.declaration.MutableAnnotationReference
 import org.eclipse.xtend.lib.macro.declaration.MutableClassDeclaration
 import org.eclipse.xtend.lib.macro.declaration.Visibility
 import org.eclipse.xtext.xbase.lib.Functions.Function0
+import org.eclipse.xtend.lib.macro.declaration.AnnotationReference
 
 @Target(ElementType::TYPE)
 @Active(typeof(NLSProcessor))
@@ -49,7 +49,7 @@ class NLSProcessor extends AbstractClassProcessor {
 		}
 	}
 
-	def private void addStaticBlock(MutableClassDeclaration annotatedClass, MutableAnnotationReference nlsAnnotation,
+	def private void addStaticBlock(MutableClassDeclaration annotatedClass, AnnotationReference nlsAnnotation,
 		extension TransformationContext context) {
 		val fieldName = "INITIALIZER";
 		checkForExistentField(annotatedClass, fieldName, context, nlsAnnotation)
@@ -72,7 +72,7 @@ class NLSProcessor extends AbstractClassProcessor {
 		]
 	}
 
-	def private void addBundleNameField(MutableClassDeclaration annotatedClass, MutableAnnotationReference nlsAnnotation,
+	def private void addBundleNameField(MutableClassDeclaration annotatedClass, AnnotationReference nlsAnnotation,
 		extension TransformationContext context, String propertyFileName) {
 		checkForExistentField(annotatedClass, BUNDLE_NAME_FIELD, context, nlsAnnotation)
 		annotatedClass.addField(BUNDLE_NAME_FIELD) [
@@ -87,7 +87,7 @@ class NLSProcessor extends AbstractClassProcessor {
 	}
 
 	def private void addResourceBundleField(MutableClassDeclaration annotatedClass,
-		MutableAnnotationReference nlsAnnotation, extension TransformationContext context) {
+		AnnotationReference nlsAnnotation, extension TransformationContext context) {
 		checkForExistentField(annotatedClass, RESOURCE_BUNDLE_FIELD, context, nlsAnnotation)
 		annotatedClass.addField(RESOURCE_BUNDLE_FIELD) [
 			visibility = Visibility.PRIVATE
@@ -100,7 +100,7 @@ class NLSProcessor extends AbstractClassProcessor {
 		]
 	}
 
-	def private void addGetStringMethod(MutableClassDeclaration annotatedClass, MutableAnnotationReference nlsAnnotation,
+	def private void addGetStringMethod(MutableClassDeclaration annotatedClass, AnnotationReference nlsAnnotation,
 		extension TransformationContext context) {
 		val methodName = "getString"
 		checkForExistentMethod(annotatedClass, methodName, context, nlsAnnotation, 1)
@@ -122,7 +122,7 @@ class NLSProcessor extends AbstractClassProcessor {
 	}
 
 	def private void addField(Map.Entry<Object, Object> entry, MutableClassDeclaration annotatedClass,
-		MutableAnnotationReference nlsAnnotation, extension TransformationContext context) {
+		AnnotationReference nlsAnnotation, extension TransformationContext context) {
 		val fieldName = entry.key as String
 		checkForExistentField(annotatedClass, fieldName, context, nlsAnnotation)
 		annotatedClass.addField(fieldName) [
@@ -135,14 +135,14 @@ class NLSProcessor extends AbstractClassProcessor {
 	}
 
 	def private void checkForExistentField(MutableClassDeclaration annotatedClass, String fieldName,
-		extension TransformationContext context, MutableAnnotationReference nlsAnnotation) {
+		extension TransformationContext context, AnnotationReference nlsAnnotation) {
 		if (annotatedClass.findDeclaredField(fieldName) !== null) {
 			nlsAnnotation.addError("Field " + fieldName + " already present in class.")
 		}
 	}
 
 	def private void addMethod(Map.Entry<Object, Object> entry, MutableClassDeclaration annotatedClass,
-		MutableAnnotationReference nlsAnnotation, extension TransformationContext context) {
+		AnnotationReference nlsAnnotation, extension TransformationContext context) {
 		val message = entry.value as String
 		val wildcardCount = message.getWildcardCount
 		val params = if (wildcardCount > 0) (0 .. wildcardCount - 1).map["param" + it] else newArrayList
@@ -161,7 +161,7 @@ class NLSProcessor extends AbstractClassProcessor {
 	}
 
 	private def void checkForExistentMethod(MutableClassDeclaration annotatedClass, String methodName,
-		extension TransformationContext context, MutableAnnotationReference nlsAnnotation, int parameterListSize) {
+		extension TransformationContext context, AnnotationReference nlsAnnotation, int parameterListSize) {
 		val existentMethod = annotatedClass.findDeclaredMethod(methodName)
 		if (existentMethod !== null) {
 			if (existentMethod.parameters.size == parameterListSize) {
@@ -185,7 +185,7 @@ class NLSProcessor extends AbstractClassProcessor {
 		annotatedClass.findAnnotation(NLS.newTypeReference.type)
 	}
 
-	def private getNLSAnnotationPropertyValue(MutableAnnotationReference nlsAnnotation,
+	def private getNLSAnnotationPropertyValue(AnnotationReference nlsAnnotation,
 		extension TransformationContext context) {
 		val value = nlsAnnotation.getValue('propertyFileName') as String
 		if (value.nullOrEmpty) {
@@ -195,7 +195,7 @@ class NLSProcessor extends AbstractClassProcessor {
 	}
 
 	def private getPropertiesFile(MutableClassDeclaration annotatedClass, extension TransformationContext context,
-		String propertyFileName, MutableAnnotationReference nlsAnnotation) {
+		String propertyFileName, AnnotationReference nlsAnnotation) {
 		val folder = annotatedClass.compilationUnit.filePath?.parent
 		if (folder === null || !folder.exists) {
 			nlsAnnotation.addError("Cannot find folder for class " + annotatedClass.qualifiedName + ": " + folder)
@@ -212,7 +212,7 @@ class NLSProcessor extends AbstractClassProcessor {
 	}
 
 	def private loadPropertiesFile(InputStream propertiesFile, extension TransformationContext transformationContext,
-		MutableAnnotationReference nlsAnnotation) {
+		AnnotationReference nlsAnnotation) {
 		val properties = new Properties
 		try {
 			properties.load(propertiesFile)

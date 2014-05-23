@@ -14,13 +14,15 @@ import org.eclipse.xtext.ui.generator.*
 var projectName = "org.eclipse.xtext.example.domainmodel"
 var grammarURI = "platform:/resource/${projectName}/src/org/eclipse/xtext/example/domainmodel/Domainmodel.xtext"
 var file.extensions = "dmodel"
-var runtimeProject = "nls/${projectName}"
+var relativeRootPath = ""
+var relativePlatformUri = "../"
+var runtimeProject = "${relativeRootPath}nls/${projectName}"
 
 Workflow {
 
     bean = StandaloneSetup {
     	resourceSet = org.eclipse.xtext.resource.XtextResourceSet:theResourceSet {}
-        platformUri = "${runtimeProject}/../.."
+        platformUri = "${runtimeProject}/${relativePlatformUri}"
         
         uriMap = {
             from = "platform:/resource/org.eclipse.xtext.xbase/"
@@ -59,9 +61,9 @@ Workflow {
 			fragment = grammarAccess.GrammarAccessFragment {}
 
 			// Generate java classes for Ecore models
-			fragment = ecore.EcoreGeneratorFragment {
-				emfRuntimeVersion = "2.9"
-			}
+			fragment = ecore.EMFGeneratorFragment auto-inject {  
+    			javaModelDirectory = "../${projectName}/src-gen"
+    		}
 
 			// the serialization component
 			fragment = serializer.SerializerFragment {}

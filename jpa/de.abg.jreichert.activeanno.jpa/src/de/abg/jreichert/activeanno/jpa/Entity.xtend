@@ -33,7 +33,7 @@ class EntityProcessor extends AbstractClassProcessor {
 	}	
 
 	override doTransform(MutableClassDeclaration clazz, extension TransformationContext context) {
-		clazz.addAnnotation(javax.persistence.Entity.newTypeReference.type)
+		clazz.addAnnotation(javax.persistence.Entity.newAnnotationReference)
 		if(clazz.declaredConstructors.filter[parameters.empty].empty) clazz.addConstructor[]
 		val idGenerationType = findAnnotationWithValue(
 			new AnnotationValueSearch => [
@@ -48,7 +48,7 @@ class EntityProcessor extends AbstractClassProcessor {
 		)
 		if (!idGenerationType.nullOrEmpty && !clazz.declaredFields.exists[annotations.exists[it.annotationTypeDeclaration.qualifiedName == Id.canonicalName]]) {
 			val idField = clazz.addField("id") [
-				addAnnotation(Id.newTypeReference.type)
+				addAnnotation(Id.newAnnotationReference)
 				// TODO: waiting for fix of 
 //				addAnnotation(GeneratedValue.newTypeReference.type) => [
 //					it.set("strategy", idGenerationType)

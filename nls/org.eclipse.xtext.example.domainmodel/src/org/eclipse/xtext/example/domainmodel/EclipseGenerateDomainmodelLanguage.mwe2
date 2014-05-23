@@ -1,0 +1,11 @@
+module org.eclipse.xtext.example.domainmodel.EclipseGenerateDomainmodelLanguage
+
+import org.eclipse.emf.mwe.utils.*
+
+Workflow {
+
+	component = @org.eclipse.xtext.example.domainmodel.GenerateDomainmodelLanguage auto-inject {
+		relativeRootPath = "../../"
+		relativePlatformUri = "../../"
+    }
+}

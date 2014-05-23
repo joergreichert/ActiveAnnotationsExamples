@@ -1,17 +1,13 @@
 package de.abg.jreichert.activeanno.jpa.example.internal
 
-import de.abg.jreichert.activeanno.jpa.CustomJpaHibFindByConditionAccessImpl
 import java.util.List
 import java.util.Set
-import org.hibernate.Session
 import org.hibernate.Transaction
-import org.sculptor.framework.accessapi.ConditionalCriteriaBuilder.ConditionProperty
-import org.sculptor.framework.accessapi.ConditionalCriteriaBuilder.ConditionRoot
-import org.sculptor.framework.domain.Property
 
 import static de.abg.jreichert.activeanno.jpa.example.internal.LocationLiterals.*
 import static de.abg.jreichert.activeanno.jpa.example.internal.UnitLiterals.*
-import org.sculptor.framework.accessapi.ConditionalCriteriaBuilder
+
+import static extension de.abg.jreichert.activeanno.jpa.CriteriaOperationExtensions.*
 
 class LocationManager {
 
@@ -56,25 +52,6 @@ class LocationManager {
 		val result = session.find(Location) [ (it => units.id).in(unitIds) ].toLocationList
 		result.forEach[urls.add(url)]
 		urls
-	}
-	
-	def <T> List<T> find(Session session, Class<T> clazz, (ConditionRoot<T>) => ConditionRoot<T> criteriaRoot) {
-		val extension findByCondition = new CustomJpaHibFindByConditionAccessImpl(clazz, session)
-		criteriaRoot.apply(ConditionalCriteriaBuilder.criteriaFor(clazz)).buildSingle.addCondition
-		performExecute
-		getResult
-	}
-	
-	def <T> ConditionRoot<T> operator_equals(ConditionProperty<T> property, Object value) {
-		property.eq(value)
-	}
-
-	def <T> ConditionRoot<T> operator_and(ConditionRoot<T> root, ConditionRoot<T> dummy) {
-		root.and()
-	}
-	
-	def <T> ConditionProperty<T> operator_doubleArrow(ConditionRoot<T> root, Property<T> property) {
-		root.withProperty(property)
 	}
 
 	private def toLocationList(List<?> result) {
