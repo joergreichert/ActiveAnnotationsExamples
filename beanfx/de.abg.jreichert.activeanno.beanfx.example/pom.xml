@@ -10,7 +10,7 @@
 		<relativePath>../../_common/de.abg.jreichert.activeanno.parent/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>de.abg.jreichert.activeanno.common</artifactId>
+	<artifactId>de.abg.jreichert.activeanno.beanfx.example</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
 	<build>

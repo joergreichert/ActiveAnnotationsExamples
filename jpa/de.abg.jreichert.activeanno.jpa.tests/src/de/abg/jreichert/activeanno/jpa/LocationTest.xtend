@@ -73,7 +73,7 @@ class LocationTest {
 			'''
 				MULTIPLE FILES WERE GENERATED
 				
-				File 1 : Location.java
+				File 1 : /myProject/xtend-gen/Location.java
 				
 				import de.abg.jreichert.activeanno.jpa.Entity;
 				import de.abg.jreichert.activeanno.jpa.Property;
@@ -174,7 +174,7 @@ class LocationTest {
 				  }
 				}
 				
-				File 2 : LocationLiteral.java
+				File 2 : /myProject/xtend-gen/LocationLiteral.java
 				
 				import org.sculptor.framework.domain.Property;
 				
@@ -187,7 +187,7 @@ class LocationTest {
 				  }
 				}
 				
-				File 3 : LocationLiteralImpl.java
+				File 3 : /myProject/xtend-gen/LocationLiteralImpl.java
 				
 				import org.sculptor.framework.domain.LeafProperty;
 				import org.sculptor.framework.domain.PropertiesCollection;
@@ -234,7 +234,7 @@ class LocationTest {
 				  }
 				}
 				
-				File 4 : LocationLiterals.java
+				File 4 : /myProject/xtend-gen/LocationLiterals.java
 				
 				import org.sculptor.framework.domain.Property;
 				
@@ -271,7 +271,7 @@ class LocationTest {
 				  }
 				}
 				
-				File 5 : Unit.java
+				File 5 : /myProject/xtend-gen/Unit.java
 				
 				import de.abg.jreichert.activeanno.jpa.Entity;
 				import de.abg.jreichert.activeanno.jpa.Property;
@@ -346,7 +346,7 @@ class LocationTest {
 				  }
 				}
 				
-				File 6 : UnitLiteral.java
+				File 6 : /myProject/xtend-gen/UnitLiteral.java
 				
 				import org.sculptor.framework.domain.Property;
 				
@@ -359,7 +359,7 @@ class LocationTest {
 				  }
 				}
 				
-				File 7 : UnitLiteralImpl.java
+				File 7 : /myProject/xtend-gen/UnitLiteralImpl.java
 				
 				import org.sculptor.framework.domain.LeafProperty;
 				import org.sculptor.framework.domain.PropertiesCollection;
@@ -398,7 +398,7 @@ class LocationTest {
 				  }
 				}
 				
-				File 8 : UnitLiterals.java
+				File 8 : /myProject/xtend-gen/UnitLiterals.java
 				
 				import org.sculptor.framework.domain.Property;
 				
@@ -427,7 +427,7 @@ class LocationTest {
 				  }
 				}
 				
-				File 9 : Version.java
+				File 9 : /myProject/xtend-gen/Version.java
 				
 				import de.abg.jreichert.activeanno.jpa.Entity;
 				import de.abg.jreichert.activeanno.jpa.Property;
@@ -482,7 +482,7 @@ class LocationTest {
 				  }
 				}
 				
-				File 10 : VersionLiteral.java
+				File 10 : /myProject/xtend-gen/VersionLiteral.java
 				
 				import org.sculptor.framework.domain.Property;
 				
@@ -495,7 +495,7 @@ class LocationTest {
 				  }
 				}
 				
-				File 11 : VersionLiteralImpl.java
+				File 11 : /myProject/xtend-gen/VersionLiteralImpl.java
 				
 				import org.sculptor.framework.domain.LeafProperty;
 				import org.sculptor.framework.domain.PropertiesCollection;
@@ -530,7 +530,7 @@ class LocationTest {
 				  }
 				}
 				
-				File 12 : VersionLiterals.java
+				File 12 : /myProject/xtend-gen/VersionLiterals.java
 				
 				import org.sculptor.framework.domain.Property;
 				

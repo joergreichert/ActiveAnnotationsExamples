@@ -22,8 +22,6 @@ class FXBeanTest {
 				@FXBean
 				@SuppressWarnings("all")
 				public class MyBean {
-				  private String text;
-				  
 				  private StringProperty textProperty =  new SimpleStringProperty(this,"text");;
 				  
 				  public String getText() {
