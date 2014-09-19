@@ -12,5 +12,6 @@ Require-Bundle: org.eclipse.xtext.junit4,
  org.apache.log4j,
  org.eclipse.xtext.xbase.junit,
  org.eclipse.jdt.core,
- org.eclipse.emf.codegen
+ org.eclipse.emf.codegen,
+ org.objectweb.asm
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

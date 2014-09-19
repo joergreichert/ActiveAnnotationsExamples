@@ -20,7 +20,7 @@ class TestSuiteTest {
 				
 				@TestSuite
 				@RunWith(value = Suite.class)
-				@Suite.SuiteClasses(value = Object.class)
+				@Suite.SuiteClasses(value = {})
 				@SuppressWarnings("all")
 				public class AllTests {
 				}
