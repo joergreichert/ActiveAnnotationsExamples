@@ -20,7 +20,7 @@ class CriteriaOperationExtensions {
 	}
 
 	def static <T> ConditionRoot<T> && (ConditionRoot<T> root, ConditionRoot<T> dummy) {
-		root.and()
+		root
 	}
 	
 	def static <T> ConditionProperty<T> => (ConditionRoot<T> root, org.sculptor.framework.domain.Property<T> property) {
