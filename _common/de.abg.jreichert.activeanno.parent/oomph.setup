@@ -1508,41 +1508,41 @@
   <setupTask
       xsi:type="setup.workingsets:WorkingSetTask">
     <workingSet
-        name="Release Engineering">
+        name="common">
       <predicate
           xsi:type="predicates:LocationPredicate"
-          pattern=".*/releng/.*"/>
+          pattern=".*/_common/.*"/>
     </workingSet>
     <workingSet
-        name="Plug-ins">
+        name="beanfx">
       <predicate
           xsi:type="predicates:LocationPredicate"
-          pattern=".*/plugins/.*"/>
+          pattern=".*/beanfx/.*"/>
     </workingSet>
     <workingSet
-        name="Tests">
+        name="jpa">
       <predicate
           xsi:type="predicates:LocationPredicate"
-          pattern=".*/tests/.*"/>
+          pattern=".*/jpa/.*"/>
     </workingSet>
     <workingSet
-        name="Examples">
+        name="nls">
       <predicate
           xsi:type="predicates:LocationPredicate"
-          pattern=".*/examples/.*"/>
+          pattern=".*/nls/.*"/>
     </workingSet>
     <workingSet
-        name="Documentation">
+        name="stopwatch">
       <predicate
           xsi:type="predicates:LocationPredicate"
-          pattern=".*/wiki"/>
+          pattern=".*/stopwatch/.*"/>
     </workingSet>
     <workingSet
-        name="Update Site"
+        name="testsuite"
         id="">
       <predicate
           xsi:type="predicates:LocationPredicate"
-          pattern=".*/features/.*"/>
+          pattern=".*/testsuite/.*"/>
     </workingSet>
   </setupTask>
   <setupTask
@@ -1580,44 +1580,12 @@
         xsi:type="maven:MavenImportTask"
         projectNameTemplate="">
       <sourceLocator
-          rootFolder="${git.clone.aa.location}">
-        <predicate
-            xsi:type="predicates:LocationPredicate"
-            pattern=".*/plugins/.*"/>
-        <predicate
-            xsi:type="predicates:LocationPredicate"
-            pattern=".*/features/.*"/>
-        <predicate
-            xsi:type="predicates:LocationPredicate"
-            pattern=".*/tests/.*"/>
-        <predicate
-            xsi:type="predicates:LocationPredicate"
-            pattern=".*/releng/.*"/>
-        <predicate
-            xsi:type="predicates:LocationPredicate"
-            pattern=".*/examples/.*"/>
-      </sourceLocator>
+          rootFolder="${git.clone.aa.location}"/>
     </setupTask>
     <setupTask
         xsi:type="projects:ProjectsImportTask">
       <sourceLocator
-          rootFolder="${git.clone.aa.location}">
-        <predicate
-            xsi:type="predicates:LocationPredicate"
-            pattern=".*/plugins/.*"/>
-        <predicate
-            xsi:type="predicates:LocationPredicate"
-            pattern=".*/features/.*"/>
-        <predicate
-            xsi:type="predicates:LocationPredicate"
-            pattern=".*/tests/.*"/>
-        <predicate
-            xsi:type="predicates:LocationPredicate"
-            pattern=".*/releng/.*"/>
-        <predicate
-            xsi:type="predicates:LocationPredicate"
-            pattern=".*/examples/.*"/>
-      </sourceLocator>
+          rootFolder="${git.clone.aa.location}"/>
     </setupTask>
   </setupTask>
   <setupTask
@@ -1725,7 +1693,7 @@
     <setupTask
         xsi:type="mylyn:MylynQueriesTask"
         connectorKind="github"
-        repositoryURL="https://github.com/joergreichert/RepositoryTargetGenerator"
+        repositoryURL="https://github.com/joergreichert/ActiveAnnotationsExamples"
         userID="${github.user.id}"
         password="${github.user.password}">
       <query
@@ -1756,7 +1724,6 @@
     </setupTask>
   </setupTask>
   <stream name="master"/>
-  <stream name="release"/>
   <logicalProjectContainer
       xsi:type="setup:Project"
       href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='GitHubContainer']"/>
