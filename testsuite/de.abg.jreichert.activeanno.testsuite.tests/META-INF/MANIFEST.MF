@@ -15,4 +15,4 @@ Require-Bundle: org.eclipse.osgi;bundle-version="3.9.1",
  de.abg.jreichert.activeanno.testsuite,
  org.objectweb.asm,
  org.eclipse.emf.codegen
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
