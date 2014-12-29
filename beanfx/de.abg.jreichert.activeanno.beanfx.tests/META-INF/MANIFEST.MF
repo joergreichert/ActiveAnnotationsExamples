@@ -5,6 +5,7 @@ Bundle-SymbolicName: de.abg.jreichert.activeanno.beanfx.tests
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.xtext.junit4,
  org.junit,
+ org.eclipse.xtend.core,
  de.abg.jreichert.activeanno.beanfx,
  org.eclipse.xtext.util,
  org.eclipse.xtext,

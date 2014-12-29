@@ -1,29 +1,29 @@
 package org.eclipse.xtext.example.domainmodel.jvmmodel
 
 import com.google.inject.Inject
+import org.eclipse.xtext.common.types.JvmField
 import org.eclipse.xtext.example.domainmodel.domainmodel.Entity
 import org.eclipse.xtext.example.domainmodel.domainmodel.Operation
 import org.eclipse.xtext.example.domainmodel.domainmodel.Property
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
+import org.eclipse.xtext.xbase.jvmmodel.JvmTypeReferenceBuilder
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1
-import org.eclipse.xtext.common.types.JvmField
 
 class DomainmodelJvmModelInferrer extends AbstractModelInferrer {
 	
 	@Inject extension JvmTypesBuilder
+	@Inject extension JvmTypeReferenceBuilder
 	@Inject extension IQualifiedNameProvider
 
 	def dispatch infer(Entity entity, IJvmDeclaredTypeAcceptor acceptor, boolean prelinkingPhase) {
-		acceptor.accept(
-			entity.toClass( entity.fullyQualifiedName )
-		).initializeLater [
+		acceptor.accept(entity.toClass( entity.fullyQualifiedName)) [
 			documentation = entity.documentation
 			if (entity.superType != null)
 				superTypes += entity.superType.cloneWithProxies
-			val procedure = entity.newTypeRef(Procedure1, it.newTypeRef())
+			val procedure = Procedure1.typeRef
 			members += entity.toConstructor() []
 			members += entity.toConstructor() [
 				parameters += entity.toParameter("initializer", procedure)
@@ -55,5 +55,4 @@ class DomainmodelJvmModelInferrer extends AbstractModelInferrer {
 			members += entity.toToStringMethod(it)
 		]
 	}
-	
 }

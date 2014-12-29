@@ -13,7 +13,7 @@ DomainModel2:
 	name=STRING
 ;
 
-DomainModel:
+DomainModel: {DomainModel}
 	importSection=XImportSection?
 	elements+=AbstractElement*;
 	
