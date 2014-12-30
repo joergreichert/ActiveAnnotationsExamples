@@ -62,7 +62,8 @@ Workflow {
 
 			// Generate java classes for Ecore models
 			fragment = ecore.EMFGeneratorFragment auto-inject {  
-    			javaModelDirectory = "../${projectName}/src-gen"
+				emfRuntimeVersion = "2.10"
+				javaModelDirectory = "../${projectName}/src-gen"
     		}
 
 			// the serialization component
