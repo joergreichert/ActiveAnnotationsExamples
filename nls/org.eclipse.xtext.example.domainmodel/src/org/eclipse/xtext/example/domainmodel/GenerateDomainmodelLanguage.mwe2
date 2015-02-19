@@ -17,11 +17,12 @@ var file.extensions = "dmodel"
 var relativeRootPath = ""
 var relativePlatformUri = "../"
 var runtimeProject = "${relativeRootPath}nls/${projectName}"
+var lineDelimiter = '\n'
 
 Workflow {
 
-    bean = StandaloneSetup {
-    	resourceSet = org.eclipse.xtext.resource.XtextResourceSet:theResourceSet {}
+	bean = StandaloneSetup {
+      resourceSet = org.eclipse.xtext.resource.XtextResourceSet:theResourceSet {}
         platformUri = "${runtimeProject}/${relativePlatformUri}"
         
         uriMap = {
@@ -32,8 +33,8 @@ Workflow {
             from = "platform:/resource/org.eclipse.xtext.common.types/"
             to = "classpath:/"
         }
-        
-        registerGeneratedEPackage = "org.eclipse.xtext.xbase.XbasePackage"
+
+		registerGeneratedEPackage = "org.eclipse.xtext.xbase.XbasePackage"
 		registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"
 		registerGenModelFile = "platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel"
 	}
@@ -46,25 +47,25 @@ Workflow {
 		directory = "${runtimeProject}.ui/src-gen"
 	}
 	
-	component = Generator {
+	component = Generator auto-inject {
 		pathRtProject = runtimeProject
 		pathUiProject = "${runtimeProject}.ui"
 		projectNameRt = projectName
 		projectNameUi = "${projectName}.ui"
 		
 		language = {
-    		forcedResourceSet = theResourceSet
+         forcedResourceSet = theResourceSet
 			uri = grammarURI
 			fileExtensions = file.extensions
 
 			// Java API to access grammar elements (required by several other fragments)
-			fragment = grammarAccess.GrammarAccessFragment {}
+			fragment = grammarAccess.GrammarAccessFragment auto-inject {}
 
 			// Generate java classes for Ecore models
-			fragment = ecore.EMFGeneratorFragment auto-inject {  
+			fragment = ecore.EMFGeneratorFragment auto-inject {
 				emfRuntimeVersion = "2.10"
 				javaModelDirectory = "../${projectName}/src-gen"
-    		}
+			}
 
 			// the serialization component
 			fragment = serializer.SerializerFragment {}
@@ -75,7 +76,7 @@ Workflow {
 			}
 
 			// the following fragment generates an Antlr parser 
-			fragment = parser.antlr.XtextAntlrGeneratorFragment {}
+			fragment = parser.antlr.XtextAntlrGeneratorFragment auto-inject {}
 
 			// java-based API for validation 
 			fragment = validation.JavaValidatorFragment {
@@ -100,7 +101,9 @@ Workflow {
 
 			// java-based API for content assistance 
 			fragment = contentAssist.JavaBasedContentAssistFragment {}
-			fragment = parser.antlr.XtextAntlrUiGeneratorFragment {}
+			fragment = parser.antlr.XtextAntlrUiGeneratorFragment auto-inject {
+				partialParsing = true
+			}
 
 			fragment = builder.BuilderIntegrationFragment {}
 

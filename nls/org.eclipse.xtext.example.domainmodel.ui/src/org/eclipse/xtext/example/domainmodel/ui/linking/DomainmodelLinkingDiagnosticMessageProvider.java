@@ -31,21 +31,20 @@ public class DomainmodelLinkingDiagnosticMessageProvider extends LinkingDiagnost
 			DiagnosticMessage diagnosticMessage = new DomainmodelSwitch<DiagnosticMessage>() {
 				@Override
 				public DiagnosticMessage caseEntity(Entity entity) {
-					return new DiagnosticMessage(IssueCodes.getMessageForMISSING_TYPE("super", context.getLinkText()),
-							Severity.ERROR, IssueCodes.MISSING_TYPE, context.getLinkText());
+					return new DiagnosticMessage("Missing supertype " + context.getLinkText(), Severity.ERROR,
+							IssueCodes.MISSING_TYPE, context.getLinkText());
 				}
 
 				@Override
 				public DiagnosticMessage caseProperty(Property property) {
-					return new DiagnosticMessage(
-							IssueCodes.getMessageForMISSING_TYPE("property", context.getLinkText()), Severity.ERROR,
+					return new DiagnosticMessage("Missing property type " + context.getLinkText(), Severity.ERROR,
 							IssueCodes.MISSING_TYPE, context.getLinkText());
 				}
 
 				@Override
 				public DiagnosticMessage caseOperation(Operation operation) {
-					return new DiagnosticMessage(IssueCodes.getMessageForMISSING_TYPE("return", context.getLinkText()),
-							Severity.ERROR, IssueCodes.MISSING_TYPE, context.getLinkText());
+					return new DiagnosticMessage("Missing return type " + context.getLinkText(), Severity.ERROR,
+							IssueCodes.MISSING_TYPE, context.getLinkText());
 				}
 			}.doSwitch(jvmTypeReference.eContainer());
 			if (diagnosticMessage != null)
