@@ -112,9 +112,9 @@ class NLSProcessor extends AbstractClassProcessor {
 			body = [
 				'''
 					try {
-						return «annotatedClass.findDeclaredField(RESOURCE_BUNDLE_FIELD).simpleName».getString(key);
+					  return «annotatedClass.findDeclaredField(RESOURCE_BUNDLE_FIELD).simpleName».getString(key);
 					} catch («toJavaCode(MissingResourceException.newTypeReference)» e) {
-						return '!' + key + '!';
+					  return '!' + key + '!';
 					}
 				'''
 			]
