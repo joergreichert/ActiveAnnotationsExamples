@@ -238,6 +238,7 @@
 						<skip>${skip.mwe2}</skip>
 						<includeProjectDependencies>false</includeProjectDependencies>
 						<includePluginDependencies>true</includePluginDependencies>
+						<cleanupDaemonThreads>false</cleanupDaemonThreads>
 						<mainClass>org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher</mainClass>
 						<arguments>
 							<argument>file://${project.basedir}/${mwe2.relative.path}</argument>
