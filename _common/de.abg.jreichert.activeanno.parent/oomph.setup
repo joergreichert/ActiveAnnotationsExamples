@@ -47,11 +47,6 @@
       xsi:type="setup:CompoundTask"
       name="Compile configuration">
     <setupTask
-        xsi:type="setup:VariableTask"
-        name="eclipse.target.platform"
-        value="Luna"
-        defaultValue=""/>
-    <setupTask
         xsi:type="jdt:JRETask"
         version="JavaSE-1.8"
         location="${jre.location-1.8}">
