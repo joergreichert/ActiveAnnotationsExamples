@@ -27,10 +27,10 @@
 		<build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
 		<eclipse-signing-maven-plugin.version>1.0.5</eclipse-signing-maven-plugin.version>
 		<exec-maven-plugin-version>1.3.2</exec-maven-plugin-version>
-		<xtend-maven-plugin-version>2.8.0-SNAPSHOT</xtend-maven-plugin-version>
-		<xtend-library-version>2.8.0-SNAPSHOT</xtend-library-version>
+		<xtend-maven-plugin-version>2.8.2</xtend-maven-plugin-version>
+		<xtend-library-version>2.8.2</xtend-library-version>
 		<xtend-gen.directory>${project.build.directory}/generated-sources/xtend-gen</xtend-gen.directory>
-		<xtext-version>2.8.0-SNAPSHOT</xtext-version>
+		<xtext-version>2.8.2</xtext-version>
 		<junit-version>4.11</junit-version>
 		<maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
 		<maven-project-info-reports-plugin.version>2.7</maven-project-info-reports-plugin.version>
@@ -402,7 +402,7 @@
 		<repository>
 			<id>Xtext Update Site</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/latest/</url>
+			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url>
 		</repository>
 	</repositories>
 
