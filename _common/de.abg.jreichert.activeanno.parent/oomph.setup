@@ -1704,9 +1704,9 @@
             name="org.eclipse.emf.mwe2.runtime.sdk.feature.group"
             versionRange="[2.8.0,2.9.0)"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/updates/interim/"/>
+            url="http://download.eclipse.org/modeling/emf/updates/releases/"/>
         <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/latest/"/>
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
         <description>Xtext &amp; Xtend</description>
       </setupTask>
     </setupTask>
@@ -1742,9 +1742,9 @@
           <repository
               url="http://download.eclipse.org/eclipse/updates/4.4"/>
           <repository
-              url="http://download.eclipse.org/modeling/emf/updates/interim/"/>
+              url="http://download.eclipse.org/modeling/emf/updates/releases/"/>
           <repository
-              url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/latest/"/>
+              url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
           <repository
               url="http://download.itemis.com/updates/releases/2.1.1/"/>
           <repository
@@ -1757,9 +1757,9 @@
           <repository
               url="http://download.eclipse.org/eclipse/updates/4.5milestones"/>
           <repository
-              url="http://download.eclipse.org/modeling/emf/updates/interim/"/>
+              url="http://download.eclipse.org/modeling/emf/updates/releases/"/>
           <repository
-              url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/latest/"/>
+              url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
           <repository
               url="http://download.itemis.com/updates/releases/2.1.1/"/>
           <repository
