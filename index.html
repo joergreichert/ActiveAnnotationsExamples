@@ -1,98 +1,310 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640">
-
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen">
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()
-      })
-    </script>
+    <meta charset="UTF-8">
     <title>Activeannotationsexamples by joergreichert</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
-    <a id="forkme_banner" href="https://github.com/joergreichert/ActiveAnnotationsExamples">View on GitHub</a>
-    <div class="shell">
+    <section class="page-header">
+      <h1 class="project-name">Activeannotationsexamples</h1>
+      <h2 class="project-tagline">Some examples to demonstrate the power of Xtend&#39;s active annotations</h2>
+      <a href="https://github.com/joergreichert/ActiveAnnotationsExamples" class="btn">View on GitHub</a>
+      <a href="https://github.com/joergreichert/ActiveAnnotationsExamples/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/joergreichert/ActiveAnnotationsExamples/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-      <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>Activeannotationsexamples</h1>
-            <h2>Some examples to demonstrate the power of Xtend&#39;s active annotations</h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-      </header>
+    <section class="main-content">
+      <p><strong>Active annotations use cases</strong></p>
 
-      <section id="downloads">
-        <span class="inner">
-          <a href="https://github.com/joergreichert/ActiveAnnotationsExamples/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/joergreichert/ActiveAnnotationsExamples/tarball/master" class="tgz"><em>download</em> .TGZ</a>
-        </span>
-      </section>
+<p><a href="http:/blog.efftinge.de/2012/10/introducing-active-annotations.html">Active</a>
+<a href="http:/www.eclipse.org/xtend/documentation.html#activeAnnotations">Annotations</a> is a language feature of 
+<a href="http:/www.eclipse.org/xtend/">Xtend</a> to</p>
 
+<ul>
+<li>add domain specific <a href="http:/en.wikipedia.org/wiki/Invariant_%28computer_science%29">invariants</a> (custom validations)</li>
+<li>apply <a href="http:/en.wikipedia.org/wiki/Programming_design_pattern">design patterns</a> / 
+<a href="http:/en.wikipedia.org/wiki/Programming_idiom">programming idioms</a> ( to avoid boilerplate code)</li>
+<li>handle <a href="http:/en.wikipedia.org/wiki/Cross-cutting_concern">cross cutting concerns</a> 
+(<a href="http:/en.wikipedia.org/wiki/Aspect-oriented_programming">AOP</a>)</li>
+<li>derive / synchronize other resources</li>
+</ul>
 
-      <span class="banner-fix"></span>
+<p>So active annotations are an addition and in some cases even an alternative
+to the classic approach of defining <a href="http:/en.wikipedia.org/wiki/Domain-specific_language">domain specific languages</a> 
+and writing code generators for these DSLs.</p>
 
+<p>This is especially true when your DSL tend to evolve to a full blown
+programming language with some domain specific customizations. In such a case
+you should consider reusing a general purpose language (GPL) like Xtend and
+customize it with active annotations to your needs. So you avoid the overhead
+of reimplementing a complete IDE infrastructure for a DSL.</p>
 
-      <section id="main_content">
-        <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<p>So the active annotations mechanism isn’t a simple code generator (although
+you can use it in that way, too) but a transformation working on the Java model
+AST where you can add new fields and methods. After editor save these members
+are then immediately visible (in scoping, type computation and content
+assistance) when further editing the Xtend file.</p>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>In this blog post I want present you two use cases how active annotations
+eases programming.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p><strong><a href="#bundles">Message bundles</a></strong></p>
+
+<p>In programming you should try to avoid situation where you have to keep
+things in sync manually. One such common situation is the handling of message
+bundles. It is always a good idea to extract and centralize messages so there
+is one place to adapt them or even add internationalized messages. These
+message strings may contain wildcards that can be bound from outside. In
+Eclipse OSGi there is already an abstract class, <a href="http:/help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fosgi%2Futil%2FNLS.html">NLS</a>, 
+in place that enables handling of message bundles. Despite of that it is
+still up to the programmer to keep the keys in the message bundle manually in
+sync with the static String constants in the Java class.</p>
+
+<p>Sven already <a href="http:/blog.efftinge.de/2013/09/better-i18n-in-java.html">blogged</a> 
+about how to externalize strings to a properties file and even derive
+methods to bind type safe the wild card parameters. I want to show you the
+other way round:</p>
+
+<p><strong>message.properties:</strong></p>
+
+<div class="highlight highlight-source-ini"><pre><span class="pl-k">INVALID_TYPE_NAME</span>=Entity name
+{0} should start with a <span class="pl-k">capital.INVALID_FEATURE_NAME</span>=Feature name {0} in {1}
+should start with a <span class="pl-k">lowercase.EMPTY_PACKAGE_NAME</span>=Package name cannot be <span class="pl-k">empty.INVALID_PACKAGE_NAME</span>=Invalid package name {0}.<span class="pl-k">MISSING_TYPE</span>=Missing {0} type {1}.  </pre></div>
+
+<p><strong>IssueCodes.xtend:</strong>
+ </p>
+
+<pre><code>import de.abg.jreichert.activeanno.nls.NLS
+
+@NLS(propertyFileName="messages")
+class IssueCodes {
+
+}
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p><strong>DomainmodelJavaValidator.java:</strong></p>
 
-<h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">DomainmodelJavaValidator</span> <span class="pl-k">extends</span> <span class="pl-e">XbaseJavaValidator</span> {
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+   <span class="pl-k">@Check</span>
+   <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">checkTypeNameStartsWithCapital</span>(<span class="pl-smi">Entity</span> <span class="pl-v">entity</span>) {
+      <span class="pl-k">if</span>(<span class="pl-k">!</span><span class="pl-smi">Character</span><span class="pl-k">.</span>isUpperCase(entity<span class="pl-k">.</span>getName()<span class="pl-k">.</span>charAt(<span class="pl-c1">0</span>))) {
+         warning(
+             <span class="pl-smi">IssueCodes</span><span class="pl-k">.</span>getMessageForINVALID_TYPE_NAME(entity<span class="pl-k">.</span>getName()),
+             <span class="pl-smi">DomainmodelPackage</span><span class="pl-k">.</span><span class="pl-smi">Literals</span><span class="pl-c1"><span class="pl-k">.</span>ABSTRACT_ELEMENT__NAME</span>,           
+             <span class="pl-smi">ValidationMessageAcceptor</span><span class="pl-c1"><span class="pl-k">.</span>INSIGNIFICANT_INDEX</span>,
+             <span class="pl-smi">IssueCodes</span><span class="pl-c1"><span class="pl-k">.</span>INVALID_TYPE_NAME</span>,
+             entity<span class="pl-k">.</span>getName()
+         );
+      }
+   }
+   <span class="pl-c1">...</span>
+}</pre></div>
 
-<h3>
-<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<p>You see that for each key in messages.properties a static String constant
+of same name is created. Moreover a method prefixed with
+getMessageFor[KEY_NAME] is derived for each key taking exactly so many
+parameters as place holders appearing in the message for this key in
+messages.properties.</p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>The complete example can be found <a href="https:/github.com/joergreichert/ActiveAnnotationsExamples/tree/master/nls">here</a>, 
+including the <a href="https:/github.com/joergreichert/ActiveAnnotationsExamples/blob/master/nls/de.abg.jreichert.activeanno.nls/src/de/abg/jreichert/activeanno/nls/NLSProcessor.xtend">active annotation processor.</a></p>
 
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<p>So every time you change messages.properties, code referencing then non
+existing keys or passing an invalid count of parameters will get error markers
+in IDE.</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>As properties file changes usually doesn’t trigger the Java builder there
+is an ANT builder added to the project that touches IssueCodes.xtend when
+messages.properties has been changed.</p>
 
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p>Some details about the implementation of the NLS active annotation:</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="https://help.github.com/pages">https://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
+<ul>
+<li>The plug-in using this annotation have to have <code>org.eclipse.osgi.util.NLS</code> 
+on its classpath, this is checked by the call to <code>findTypeGlobally</code>: if the 
+class cannot be resolved an error marker is created at <code>@NLS</code>
+</li>
+<li>By navigating over <code>annotatedClass.compilationUnit.filePath</code> you have access 
+to the file path where the class resides that is annotated with <a href="https://github.com/NLS" class="user-mention">@NLS</a>. So the 
+properties file can be accessed.</li>
+<li>If there is no properties file with the name used for the annotation property 
+<code>propertyFileName</code> or the properties file cannot be loaded appropriate error 
+markers will be created.</li>
+<li>As active annotations and Xtend itself doesn’t currently support a static 
+initializer block, this is emulated by a static field. A function containing 
+the initialization logic is called and assigned to this field.</li>
+<li>Before creating new fields or methods it is checked if there is already a 
+member with same name in place. In this case an error marker will be produced. 
+This is currently not very elaborated as it doesn’t take method overloading in 
+consideration, but for the <code>NLS</code> annotation the parameter count check is enough.</li>
+<li>Via a regular expression the count of wildcards in a message is calculated and 
+exactly this number of Object parameters are then added to the <code>getMessageFor</code> method.</li>
+</ul>
 
-      <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>this project by <a href="https://github.com/joergreichert">joergreichert</a> can be found on <a href="https://github.com/joergreichert/ActiveAnnotationsExamples">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="https://pages.github.com">GitHub Pages</a> using Merlot</p>
-        <span class="octocat"></span>
+<p>Since Xtend 2.5 it is possible to write</p>
+
+<div class="highlight highlight-source-xtend"><pre>initializer <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span><span class="pl-pds">'</span></span>
+<span class="pl-s">   new «Function0»&lt;«String»&gt;() {</span>
+<span class="pl-s">      public «string» apply() {</span>
+<span class="pl-s">         «NLS /* this is the class literal of org.eclipse.osgi.util.NLS */».initializeMessages(«annotatedClass.findDeclaredField(BUNDLE_NAME_FIELD).simpleName», </span>
+<span class="pl-s">              «annotatedClass».class</span>
+<span class="pl-s">         );</span>
+<span class="pl-s">         return "";</span>
+<span class="pl-s">      }</span>
+<span class="pl-s">   }.apply();</span>
+<span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span><span class="pl-pds">'</span></span></pre></div>
+
+<p>All class literals inside the rich string assigned to the initializer are
+now wrapped with toJava automatically. Compare this with the old notation used
+in the code on GitHub. This is much more readable now.</p>
+
+<p><strong><a href="#criteria">Hibernate Criteria Builder</a></strong></p>
+
+<p>In the second example I want to handle the problem of building type safe
+SQL queries. <a href="http:/hibernate.org/orm/">Hibernate ORM</a> defines a
+fluent API to create <a href="http:/docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/querycriteria.html">criteria queries</a>, a
+programmatic, type-safe way to express a database query. It depends on a <a href="http:/docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/metamodel.html#metamodel-static">static meta model</a> that
+enables static access to the meta data of the entities contained in the domain
+model. This meta model have to be generated by the <a href="http:/docs.jboss.org/hibernate/stable/orm/topical/html/metamodelgen/MetamodelGenerator.html">JPA Static Metamodel Generator</a>, 
+a annotation processor. It requires a class defining volatile static
+fields corresponding to the attributes of the entity as input.</p>
+
+<p>An alternative approach is <a href="http:/www.jooq.org/">JOOQ</a>, but here you also have an
+extra generation step.</p>
+
+<p>The third approach, <a href="http:/sculptorgenerator.org/">Sculptor</a>, is a generator framework to
+describe 3-tier enterprise applications following the domain driven design
+approach. It uses Xtext based DSLs to define entities, repositories, services
+and front end. Out of the DSL artifacts code for well established frameworks
+like JPA, Hibernate, Spring and Java EE is generated. Sculptor itself also
+ships with some useful static framework classes then called by the generated
+code. Similar to the before mentioned JPA Static Metamodel Generator Sculptor
+generates attribute accessor classes for every entity defined in the DSL to be
+used for a self defined <a href="http:/sculptorgenerator.org/documentation/advanced-tutorial#findbycondition">critera query builder</a>.</p>
+
+<p>Wouldn’t it be nice to see immediately which queries break when you change
+your domain model?</p>
+
+<p>In the following the static framework classes of Sculptor will be reused.
+But instead using the Sculptor DSL and generator these classes are combined
+with active annotations. Find the complete example <a href="https:/github.com/joergreichert/ActiveAnnotationsExamples/tree/master/jpa">here</a> 
+and in particular the <a href="https:/github.com/joergreichert/ActiveAnnotationsExamples/blob/master/jpa/de.abg.jreichert.activeanno.jpa/src/de/abg/jreichert/activeanno/jpa/Entity.xtend">the active annotation processing class</a>.</p>
+
+<p>So with annotating a class with <code>@Entity</code> generates an id field and derives
+the classes later to use when creating type safe database queries. With
+annotating a class only with <code>@EntityLiteral</code> will leave off adding the id field.
+The <a href="https://github.com/Property" class="user-mention">@Property</a> annotation will add getter and setter method for the annotated
+field.</p>
+
+<p>Having the domain model for a P2 repository structure (see <a href="https:/github.com/joergreichert/ActiveAnnotationsExamples/blob/master/jpa/de.abg.jreichert.activeanno.jpa.example/src/de/abg/jreichert/activeanno/jpa/example/internal/Database.xtend">Database.xtend</a> for the
+complete entity model)</p>
+
+<pre lang="plantuml"><code>@startuml
+Location &lt;&gt;— * Unit &lt;&gt;— * Version
+@enduml
+</code></pre>
+
+<p>and each entity is annotated with <code>@Entity</code> the following typed queries are
+now possible (copied from <a href="https:/github.com/joergreichert/ActiveAnnotationsExamples/blob/master/jpa/de.abg.jreichert.activeanno.jpa.example/src/de/abg/jreichert/activeanno/jpa/example/internal/LocationManager.xtend">LocationManager.xtend</a>):</p>
+
+<div class="highlight highlight-source-xtend"><pre>def <span class="pl-en">Set</span> getLocationURLsContainingUnitWithVersion(<span class="pl-en">String</span> unit, <span class="pl-en">String</span> version) {
+   <span class="pl-k">val</span> urls <span class="pl-k">=</span> newHashSet
+   <span class="pl-k">val</span> session <span class="pl-k">=</span> <span class="pl-en">SessionManager</span><span class="pl-k">::</span>currentSession
+   <span class="pl-k">val</span> unitFindByCondition <span class="pl-k">=</span> <span class="pl-v">new</span> <span class="pl-en">CustomJpaHibFindByConditionAccessImpl</span>(<span class="pl-en">Unit</span>, session)
+   <span class="pl-k">var</span> unitCriteriaRoot <span class="pl-k">=</span> <span class="pl-en">ConditionalCriteriaBuilder</span><span class="pl-k">.</span>criteriaFor(<span class="pl-en">Unit</span>)
+   unitCriteriaRoot <span class="pl-k">=</span> unitCriteriaRoot<span class="pl-k">.</span>withProperty(<span class="pl-en">UnitLiterals</span><span class="pl-k">.</span>name())<span class="pl-k">.</span>eq(unit)<span class="pl-k">.</span>and()<span class="pl-k">.</span>withProperty(<span class="pl-en">UnitLiterals</span><span class="pl-k">.</span>versions()<span class="pl-k">.</span>name())<span class="pl-k">.</span>eq(version)
+   unitFindByCondition<span class="pl-k">.</span>addCondition(unitCriteriaRoot<span class="pl-k">.</span>buildSingle())
+   unitFindByCondition<span class="pl-k">.</span>performExecute
+   <span class="pl-k">val</span> unitIds <span class="pl-k">=</span> unitFindByCondition<span class="pl-k">.</span>getResult()<span class="pl-k">.</span>map[id]
+   <span class="pl-k">val</span> locationFindByCondition <span class="pl-k">=</span> <span class="pl-v">new</span> <span class="pl-en">CustomJpaHibFindByConditionAccessImpl</span>(<span class="pl-en">Location</span>, session)
+   <span class="pl-k">var</span> locationCriteriaRoot <span class="pl-k">=</span> <span class="pl-en">ConditionalCriteriaBuilder</span><span class="pl-k">.</span>criteriaFor(<span class="pl-en">Location</span>)
+   locationCriteriaRoot <span class="pl-k">=</span> locationCriteriaRoot<span class="pl-k">.</span>withProperty(
+   <span class="pl-en">LocationLiterals</span><span class="pl-k">.</span>units()<span class="pl-k">.</span>id())<span class="pl-k">.</span>in(unitIds)
+   locationFindByCondition<span class="pl-k">.</span>addCondition(locationCriteriaRoot<span class="pl-k">.</span>buildSingle())
+   locationFindByCondition<span class="pl-k">.</span>performExecute
+   <span class="pl-k">val</span> result <span class="pl-k">=</span> toLocationList(locationFindByCondition<span class="pl-k">.</span>getResult())
+   result<span class="pl-k">.</span>forEach[urls<span class="pl-k">.</span>add(url)]
+   urls
+}</pre></div>
+
+<p>The method above will return the URLs of those locations that contain a
+unit with the given name and version.</p>
+
+<p>The nice thing about the active annotation here is that if you rename
+version’s attribute name to id and save this change will immediately produce an
+error marker in LocationManager.xtend as now the access <code>.name()</code> in the query
+isn’t valid anymore.</p>
+
+<p>Some implementation details about the active annotation here as well:</p>
+
+<ul>
+<li>the <code>EntityProcessor</code> calls <code>EntityLiteralProcessor</code> (to create the literal classes) 
+and <code>PropertyProcessor</code> (to create getter and setter for the here create id field), 
+so you see, it is possible to chain active annotation processors</li>
+<li>all additionally created Java classes during active annotation processing have to be 
+registered globally in method <code>doRegisterGlobals</code>
+</li>
+<li>the <code>EntityLiteralProcessor</code> checks fields for having the <code>@Property</code> annotation – 
+only for those fields corresponding methods in the literal classes are created</li>
+<li>currently only constants can be used as values for annotation properties (both in 
+active annotations as well as when creating new annotations during active annotation 
+processing)</li>
+<li>
+<a href="https:/github.com/joergreichert/ActiveAnnotationsExamples/blob/master/_common/de.abg.jreichert.activeanno.common/src/de/abg/jreichert/activeanno/common/AnnotationExtensions.xtend">AnnotationExtensions</a> 
+provides some common methods e.g. used to find existing annotations either by name or 
+by name and property value</li>
+</ul>
+
+<p><strong><a href="#other">Other use cases</a></strong></p>
+
+<p>Besides the both use cases described above there are several other examples
+of how to use the power of active annotations:</p>
+
+<ul>
+<li><a href="http:/www.eclipse.org/xtend/documentation.html#_3">Value objects</a></li>
+<li><a href="http:/tylermac.wordpress.com/2013/09/13/log-xtend-annotation/">Logging</a></li>
+<li><a href="http:/mnmlst-dvlpr.blogspot.de/2013/03/fun-with-active-annotations-memoization.html">Caching</a></li>
+<li><a href="http:/mnmlst-dvlpr.blogspot.de/2013/03/fun-with-active-annotations-micro.html">Micro benchmarking</a></li>
+<li><a href="http:/mnmlst-dvlpr.blogspot.de/2013/04/active-annotation-automated-extract.html">Extract interface</a></li>
+<li><a href="http:/sculptorgenerator.org/documentation/developers-guide#customize-the-transformations">Interceptor</a></li>
+<li><a href="https:/bitbucket.org/msigmond/concurrent-annotations/">Concurrency</a></li>
+<li><a href="http:/mnmlst-dvlpr.blogspot.de/2013/04/active-annotation-builder-pattern.html">Builder pattern</a></li>
+<li><a href="http:/zarnekow.blogspot.de/2013/03/pimp-my-visitors.html">Visitor pattern</a></li>
+<li><a href="http:/blog.efftinge.de/2013/09/better-i18n-in-java.html">I18n – Externalizing strings</a></li>
+<li><a href="http:/blog.efftinge.de/2013/03/working-with-json-data-from-java.html">Java from JSON</a></li>
+<li><a href="https:/github.com/gzsombor/ixlibs#elastix">ElasticSearch</a></li>
+<li><a href="http:/blog.efftinge.de/2013/03/fun-with-active-annotations-my-little.html">REST Server API</a></li>
+<li><a href="http:/de.slideshare.net/sefftinge/gwt-and-xtend">GWT Programming</a></li>
+<li>
+<a href="http:/blog.efftinge.de/2012/11/active-annotations-explained-javafx.html">JavaFX Properties</a> /<a href="https:/github.com/svenefftinge/xtendfx">XtendFX</a>
+</li>
+<li><a href="http:/blog.efftinge.de/2013/10/xtend-android-sneak-preview.html">Xtendroid</a></li>
+<li><a href="https:/github.com/search?l=Xtend&amp;o=desc&amp;q=TransformationContext&amp;ref=advsearch&amp;s=indexed&amp;type=Code">and many more</a></li>
+</ul>
+
+<p><strong><a href="#summary">Summary</a></strong></p>
+
+<p>I hope I was able to give you a good impression, what you can achieve with
+active annotations. If you want to start writing your own active annotation
+processors have a look at the <a href="http:/www.eclipse.org/xtend/documentation.html#activeAnnotations">official documentation</a> 
+and at this <a href="http:/mnmlst-dvlpr.blogspot.de/2013/06/active-annotation-best-practices.html">best practices guide</a> as well. 
+Also don’t hesitate to ask questions in the <a href="https:/groups.google.com/group/xtend-lang">Xtend forum</a> and filling feature 
+requests or bugs <a href="https:/bugs.eclipse.org/bugs/enter_bug.cgi?product=Xtend">here</a>.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/joergreichert/ActiveAnnotationsExamples">Activeannotationsexamples</a> is maintained by <a href="https://github.com/joergreichert">joergreichert</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
 
-    </div>
+    </section>
 
-    
+  
   </body>
 </html>
