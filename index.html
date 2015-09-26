@@ -53,17 +53,10 @@ assistance) when further editing the Xtend file.</p>
 <p>In this blog post I want present you two use cases how active annotations
 eases programming.</p>
 
-<p><strong><a href="#bundles">Message bundles</a></strong></p>
-
-<p>In programming you should try to avoid situation where you have to keep
-things in sync manually. One such common situation is the handling of message
-bundles. It is always a good idea to extract and centralize messages so there
-is one place to adapt them or even add internationalized messages. These
-message strings may contain wildcards that can be bound from outside. In
-Eclipse OSGi there is already an abstract class, <a href="http:/help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fosgi%2Futil%2FNLS.html">NLS</a>, 
+<p><strong><a name="bundles&gt;Message%20bundles&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;%0A%0A&lt;p&gt;In%20programming%20you%20should%20try%20to%20avoid%20situation%20where%20you%20have%20to%20keep%0Athings%20in%20sync%20manually.%20One%20such%20common%20situation%20is%20the%20handling%20of%20message%0Abundles.%20It%20is%20always%20a%20good%20idea%20to%20extract%20and%20centralize%20messages%20so%20there%0Ais%20one%20place%20to%20adapt%20them%20or%20even%20add%20internationalized%20messages.%20These%0Amessage%20strings%20may%20contain%20wildcards%20that%20can%20be%20bound%20from%20outside.%20In%0AEclipse%20OSGi%20there%20is%20already%20an%20abstract%20class,%20&lt;a%20href=">NLS</a>, 
 in place that enables handling of message bundles. Despite of that it is
 still up to the programmer to keep the keys in the message bundle manually in
-sync with the static String constants in the Java class.</p>
+sync with the static String constants in the Java class.</strong></p>
 
 <p>Sven already <a href="http:/blog.efftinge.de/2013/09/better-i18n-in-java.html">blogged</a> 
 about how to externalize strings to a properties file and even derive
@@ -164,7 +157,7 @@ exactly this number of Object parameters are then added to the <code>getMessageF
 now wrapped with toJava automatically. Compare this with the old notation used
 in the code on GitHub. This is much more readable now.</p>
 
-<p><strong><a href="#criteria">Hibernate Criteria Builder</a></strong></p>
+<p><strong><a name="criteria">Hibernate Criteria Builder</a></strong></p>
 
 <p>In the second example I want to handle the problem of building type safe
 SQL queries. <a href="http:/hibernate.org/orm/">Hibernate ORM</a> defines a
@@ -205,9 +198,7 @@ field.</p>
 <p>Having the domain model for a P2 repository structure (see <a href="https:/github.com/joergreichert/ActiveAnnotationsExamples/blob/master/jpa/de.abg.jreichert.activeanno.jpa.example/src/de/abg/jreichert/activeanno/jpa/example/internal/Database.xtend">Database.xtend</a> for the
 complete entity model)</p>
 
-<pre lang="plantuml"><code>@startuml
-Location &lt;&gt;— * Unit &lt;&gt;— * Version
-@enduml
+<pre><code>Location &lt;&gt;— * Unit &lt;&gt;— * Version
 </code></pre>
 
 <p>and each entity is annotated with <code>@Entity</code> the following typed queries are
@@ -261,7 +252,7 @@ provides some common methods e.g. used to find existing annotations either by na
 by name and property value</li>
 </ul>
 
-<p><strong><a href="#other">Other use cases</a></strong></p>
+<p><strong><a name="other">Other use cases</a></strong></p>
 
 <p>Besides the both use cases described above there are several other examples
 of how to use the power of active annotations:</p>
@@ -288,7 +279,7 @@ of how to use the power of active annotations:</p>
 <li><a href="https:/github.com/search?l=Xtend&amp;o=desc&amp;q=TransformationContext&amp;ref=advsearch&amp;s=indexed&amp;type=Code">and many more</a></li>
 </ul>
 
-<p><strong><a href="#summary">Summary</a></strong></p>
+<p><strong><a name="summary">Summary</a></strong></p>
 
 <p>I hope I was able to give you a good impression, what you can achieve with
 active annotations. If you want to start writing your own active annotation
