@@ -9,7 +9,7 @@ See also [here](http://joergreichert.github.io/ActiveAnnotationsExamples) for a 
 Drag and drop this projects's  [oomph.setup](https://github.com/joergreichert/ActiveAnnotationsExamples/blob/master/_common/de.abg.jreichert.activeanno.parent/oomph.setup) in your running Oomph instance, which you can download from [here](https://wiki.eclipse.org/Eclipse_Installer)
 
 ## Maven
-Download and extract latest (Maven)(https://maven.apache.org/download.cgi) and add contained bin/mvn.bat to your `PATH`.
+Download and extract latest [Maven](https://maven.apache.org/download.cgi) and add contained bin/mvn.bat to your `PATH`.
 Execute mvn clean install in the before (via Eclipse installer) locally cloned Git repository.
 
 ## Existing Projects
