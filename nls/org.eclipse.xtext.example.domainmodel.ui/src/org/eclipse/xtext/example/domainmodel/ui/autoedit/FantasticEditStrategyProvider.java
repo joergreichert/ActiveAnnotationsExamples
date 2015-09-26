@@ -23,6 +23,7 @@ public class FantasticEditStrategyProvider extends DefaultAutoEditStrategyProvid
 	private final class Surprise implements IAutoEditStrategy {
 		
 		private String contents;
+		
 		@Override
 		public void customizeDocumentCommand(IDocument document, DocumentCommand command) {
 			try {

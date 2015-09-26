@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Classloader active annotation example bundle 2
+Bundle-SymbolicName: de.abg.jreichert.activeanno.classloader.example.bundle2
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Joerg Reichert
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.xtend.lib;bundle-version="2.7.3",
+ de.abg.jreichert.activeanno.classloader;bundle-version="1.0.0",
+ de.abg.jreichert.activeanno.classloader.example.bundle1;bundle-version="1.0.0"
+Import-Package: de.abg.jreichert.activeanno.classloader.example.bundle3

@@ -37,5 +37,10 @@
 		<module>testsuite/de.abg.jreichert.activeanno.testsuite</module>
 		<module>testsuite/de.abg.jreichert.activeanno.testsuite.example</module>
 		<module>testsuite/de.abg.jreichert.activeanno.testsuite.tests</module>
+		<!-- Classloader -->
+		<module>classloader/de.abg.jreichert.activeanno.classloader</module>
+		<module>classloader/de.abg.jreichert.activeanno.classloader.example.bundle1</module>
+		<module>classloader/de.abg.jreichert.activeanno.classloader.example.bundle2</module>
+		<module>classloader/de.abg.jreichert.activeanno.classloader.example.bundle3</module>
 	</modules>
 </project>

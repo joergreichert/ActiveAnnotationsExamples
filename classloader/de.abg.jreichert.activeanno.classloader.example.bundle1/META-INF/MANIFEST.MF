@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Classloader active annotation example bundle 1
+Bundle-SymbolicName: de.abg.jreichert.activeanno.classloader.example.bundle1
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Joerg Reichert
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: de.abg.jreichert.activeanno.classloader.example.bundle1
