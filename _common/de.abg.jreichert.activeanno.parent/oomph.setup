@@ -1632,7 +1632,7 @@
             name="org.eclipse.emf.mwe2.runtime.sdk.feature.group"
             versionRange="2.7.0"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/updates/releases/"/>
+            url="http://download.eclipse.org/modeling/emf/emf/updates/"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/"/>
         <description>Xtext &amp; Xtend</description>
@@ -1669,7 +1669,7 @@
           <repository
               url="http://download.eclipse.org/eclipse/updates/4.4"/>
           <repository
-              url="http://download.eclipse.org/modeling/emf/emf/updates/releases/"/>
+              url="http://download.eclipse.org/modeling/emf/emf/updates/"/>
           <repository
               url="http://download.eclipse.org/modeling/tmf/xtext/updates/"/>
           <repository
