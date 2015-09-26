@@ -6,7 +6,7 @@ Some examples to demonstrate the power of Xtend's active annotations
 See also [here](http://joergreichert.github.io/ActiveAnnotationsExamples) for a more general description.
 
 ## Setting up development environment
-Drag and drop this projects's  [oomph.setup](https://github.com/joergreichert/ActiveAnnotationsExamples/blob/master/_common/de.abg.jreichert.activeanno.parent/oomph.setup) in your running Oomph instance, which you can download from [here](https://wiki.eclipse.org/Eclipse_Installer)
+Drag and drop this projects's  [oomph.setup](https://raw.githubusercontent.com/joergreichert/ActiveAnnotationsExamples/master/_common/de.abg.jreichert.activeanno.parent/oomph.setup) in your running Oomph instance, which you can download from [here](https://wiki.eclipse.org/Eclipse_Installer)
 
 ## Maven
 Download and extract latest [Maven](https://maven.apache.org/download.cgi) and add contained bin/mvn.bat to your `PATH`.
