@@ -1691,11 +1691,9 @@
   </setupTask>
   <setupTask
       xsi:type="setup:CompoundTask"
-      id=""
       name="Tasks">
     <setupTask
         xsi:type="setup:VariableTask"
-        id=""
         type="PASSWORD"
         name="github.user.password"
         label="GitHub password for issues"/>
