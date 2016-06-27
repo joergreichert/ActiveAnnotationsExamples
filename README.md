@@ -45,4 +45,4 @@ See [example class](https://github.com/joergreichert/ActiveAnnotationsExamples/b
 
 ## Continuous Integration
 
-[![Build Status](https://travis-ci.org/jrlover/ActiveAnnotationsExamples.svg?branch=master)](https://travis-ci.org/jrlover/ActiveAnnotationsExamples) [![Build Status at Snap](https://snap-ci.com/jrlover/ActiveAnnotationsExamples/branch/master/build_image.svg)](https://snap-ci.com/jrlover/ActiveAnnotationsExamples/branch/master)
+[![Build Status](https://travis-ci.org/jrlover/ActiveAnnotationsExamples.svg?branch=master)](https://travis-ci.org/jrlover/ActiveAnnotationsExamples)
