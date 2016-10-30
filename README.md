@@ -45,4 +45,4 @@ See [example class](https://github.com/joergreichert/ActiveAnnotationsExamples/b
 
 ## Continuous Integration
 
-[![Build Status](https://travis-ci.org/jrlover/ActiveAnnotationsExamples.svg?branch=master)](https://travis-ci.org/jrlover/ActiveAnnotationsExamples)
+[![Build Status](https://travis-ci.org/joergreichert/ActiveAnnotationsExamples.svg?branch=master)](https://travis-ci.org/jrlover/ActiveAnnotationsExamples)
